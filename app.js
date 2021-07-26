@@ -21,24 +21,24 @@
 
 // this one is for a determined time like 1s,2s or 3s 
 
-function delayedColorChange(newColor, delay, doNext) {
+// function delayedColorChange(newColor, delay, doNext) {
 
-    setTimeout(()=> {
-        document.body.style.backgroundColor = newColor;
-        doNext();
-    }, delay)
-}
+//     setTimeout(() => {
+//         document.body.style.backgroundColor = newColor;
+//         doNext && doNext();
+//     }, delay)
+// }
 
-delayedColorChange('lawngreen', 3000, () => {
+// delayedColorChange('lawngreen', 3000, () => {
 
-    delayedColorChange('yellow', 3000, () => {
-        
-        delayedColorChange('green', 3000, () => {
-        
-        })
+//     delayedColorChange('yellow', 3000, () => {
 
-    });
-});
+//         delayedColorChange('green', 3000, () => {
+
+//         })
+
+//     });
+// });
 
 
 
@@ -55,4 +55,60 @@ delayedColorChange('lawngreen', 3000, () => {
 // }, () => { 
 //     // if the API is down run this line of code
 // })
+
+
+
+function ServerRequestAPI(url, success, faliure) {
+
+    const delay = Math.floor((Math.random() * 4500)) + 500;
+
+    setTimeout(() => {
+
+        if (delay > 4000) {
+            faliure('Connection timed out (:');
+        }
+
+        else {
+            success('It worked out fine !!!');
+        }
+
+    }, delay);
+
+}
+
+
+ServerRequestAPI('services.com/page1', (success) => {
+
+    console.log("It worked (1st request)");
+    console.log(success);
+
+    ServerRequestAPI('services.com/page2',
+
+        (success) => {
+            console.log("It worked (2nd request)");
+            console.log(success);
+
+            ServerRequestAPI('services.com/page3',
+
+                (success) => {
+                    console.log("It worked (3rd request)");
+                    console.log(success);
+                },
+
+                (fail) => {
+                    console.log("Oops an error occured!!", fail);
+                })
+        },
+
+        (fail) => {
+            console.log("Oops an error occured!!", fail);
+        })
+},
+
+    (fail) => {
+        console.log("Oops an error occured!!", fail);
+    })
+
+
+
 
