@@ -69,7 +69,7 @@ function ServerRequestAPI(url, success, faliure) {
         }
 
         else {
-            success('It worked out fine !!!');
+            success(`It worked out fine !!! for ${url}`);
         }
 
     }, delay);
@@ -77,38 +77,76 @@ function ServerRequestAPI(url, success, faliure) {
 }
 
 
-ServerRequestAPI('services.com/page1', (success) => {
+// ServerRequestAPI('services.com/page1', (success) => {
 
-    console.log("It worked (1st request)");
-    console.log(success);
+//     console.log("It worked (1st request)");
+//     console.log(success);
 
-    ServerRequestAPI('services.com/page2',
+//     ServerRequestAPI('services.com/page2',
 
-        (success) => {
-            console.log("It worked (2nd request)");
-            console.log(success);
+//         (success) => {
+//             console.log("It worked (2nd request)");
+//             console.log(success);
 
-            ServerRequestAPI('services.com/page3',
+//             ServerRequestAPI('services.com/page3',
 
-                (success) => {
-                    console.log("It worked (3rd request)");
-                    console.log(success);
-                },
+//                 (success) => {
+//                     console.log("It worked (3rd request)");
+//                     console.log(success);
+//                 },
 
-                (fail) => {
-                    console.log("Oops an error occured!!", fail);
-                })
-        },
+//                 (fail) => {
+//                     console.log("Oops an error occured!!", fail);
+//                 })
+//         },
 
-        (fail) => {
-            console.log("Oops an error occured!!", fail);
-        })
-},
+//         (fail) => {
+//             console.log("Oops an error occured!!", fail);
+//         })
+// },
 
-    (fail) => {
-        console.log("Oops an error occured!!", fail);
+//     (fail) => {
+//         console.log("Oops an error occured!!", fail);
+//     })
+
+
+
+
+const fakeRequestPromise = (url) => {
+    return new Promise((resolve, reject) => {
+        const delay = Math.floor(Math.random() * (4500)) + 500;
+        setTimeout(() => {
+            if (delay > 4000) {
+                reject('Connection Timeout :(')
+            } else {
+                resolve(`Here is your fake data from ${url}`)
+            }
+        }, delay)
     })
+}
 
 
+
+fakeRequestPromise('services.com/api/page1')
+
+    .then(
+        (resolve) => {
+            console.log(`It is resolved for page1 and ${resolve}`)
+
+            fakeRequestPromise('services.com/api/page2')
+                .then(
+                    (resolve) => {
+                        console.log(`It is resolved for page2 and ${resolve}`)
+                    }
+                )
+                .catch((reject) => {
+                    console.log(`Oh no Error: ${reject} page2`)
+                })
+        }
+    )
+    .catch((reject) => {
+        console.log(`Oh no Error: ${reject} page1`)
+
+    })
 
 
