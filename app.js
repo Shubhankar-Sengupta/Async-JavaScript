@@ -127,26 +127,58 @@ const fakeRequestPromise = (url) => {
 
 
 
+// fakeRequestPromise('services.com/api/page1')
+
+//     .then(
+//         (resolve) => {
+//             console.log(`It is resolved for page1 and ${resolve}`)
+
+//             fakeRequestPromise('services.com/api/page2')
+//                 .then(
+//                     (resolve) => {
+//                         console.log(`It is resolved for page2 and ${resolve}`)
+//                     }
+//                 )
+//                 .catch((reject) => {
+//                     console.log(`Oh no Error: ${reject} page2`)
+//                 })
+//         }
+//     )
+//     .catch((reject) => {
+//         console.log(`Oh no Error: ${reject} page1`)
+
+//     })
+
+
+
 fakeRequestPromise('services.com/api/page1')
 
-    .then(
-        (resolve) => {
-            console.log(`It is resolved for page1 and ${resolve}`)
+    .then((resolve) => {
 
-            fakeRequestPromise('services.com/api/page2')
-                .then(
-                    (resolve) => {
-                        console.log(`It is resolved for page2 and ${resolve}`)
-                    }
-                )
-                .catch((reject) => {
-                    console.log(`Oh no Error: ${reject} page2`)
-                })
-        }
-    )
-    .catch((reject) => {
-        console.log(`Oh no Error: ${reject} page1`)
+        console.log('It worked!!')
 
+        console.log(resolve)
+
+        return fakeRequestPromise('services.com/api/page2') // this returns a new Promise object whose status might be pending, resolved or reject between an indefinite period of time.
+    })
+
+    .then((resolve) => { // we again use the then method over that returned promise object if in case it is resolved. 
+
+        console.log('It worked!!')
+
+        console.log(resolve)
+
+        return fakeRequestPromise('services.com/api/page3')
     })
 
 
+    .then((resolve) => { // we again use the then method over that returned promise object if in case it is resolved. 
+
+        console.log('It worked!!')
+
+        console.log(resolve)
+    })
+
+    .catch((reject) => {
+        console.log('It Request failed', reject) // if in case anything goes wrong on any promise object and the promise is rejected then this catch method over that returned promise object runs.
+    })
