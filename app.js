@@ -203,33 +203,123 @@ const fakeRequestPromise = (url) => {
 
 // delayedColorChange('red', 1000).then(() => delayedColorChange('orange', 1000))
 
-let bgChange = (color, delay) => {
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            document.body.style.backgroundColor = color;
-            resolve(color);
-        }, delay);
-    });
-};
+// let bgChange = (color, delay) => {
+//     return new Promise((resolve, reject) => {
+//         setTimeout(() => {
+//             document.body.style.backgroundColor = color;
+//             resolve(color);
+//         }, delay);
+//     });
+// };
 
-bgChange("black", 1000)
-    .then(color => {
-        console.log(color)
-        return bgChange("blue", 1000)
-    })
-    .then(color => {
-        console.log(color)
-        return bgChange("yellow", 1000);
-    })
-    .then(color => {
-        console.log(color)
-        return bgChange("red", 1000)
-    })
-    .then(color => {
-        console.log(color)
-        return bgChange("violet", 1000)
-    })
+// bgChange("black", 1000)
+//     .then(color => {
+//         console.log(color)
+//         return bgChange("blue", 1000)
+//     })
+//     .then(color => {
+//         console.log(color)
+//         return bgChange("yellow", 1000);
+//     })
+//     .then(color => {
+//         console.log(color)
+//         return bgChange("red", 1000);
+//     })
+//     .then(color => {
+//         console.log(color)
+//         return bgChange("violet", 1000);
+//     })
 
-    .then(color => {
-        console.log(color)
-    })
+//     .then(color => {
+//         console.log(color);
+//     })
+
+
+// const delay = setTimeout(()=> { // It's a handle (a unique identifier). When you create a timeout, the JavaScript runtime associates a handle with the timeout you created, and it can identify that timeout by the handle setTimeout()
+//     console.log("Hello")
+// },2000)
+
+// // clearTimeout(delay) // it is used to clear the function that is going to run after 11 seconds. It uniquely identifies by the task_id associated with it.
+
+// async function Color(color, delay) { // automatically returns a resolved promise and if in case we return something then it returns it with that value.
+
+//     return setTimeout(() => {
+//         document.body.style.backgroundColor = color;
+//     }, delay)
+
+//     //setTimeout() callback function is returned as a value of the resolved promise.
+// }
+
+// Color('red', 1000)
+
+//     .then((data) => {
+//         console.log(data);
+//         return Color('yellow', 1000)
+//     })
+
+//     .then((data) => console.log(data))
+
+
+// hypothetical data on the server
+
+// posts = [
+//     { name: "Shubhankar", comments: "Understanding Async JavaScript" },
+//     { name: "Ashit", comments: "Understanding Reports" }
+// ]
+
+// posts.forEach((data) => console.log(data.name))
+
+
+// creating a Promise to be either resolved or rejected and sent as a request to the hypothetical server. It may take time hence to mimic we are using setTimeout() callback function.
+// we first create a function which we will execute later on.
+
+// function bringPosts() {
+
+//     return new Promise((resolve, reject) => { // this is a promise constructor
+
+//         // both resolve and reject are callbacks
+//         // reject('An error occurred'); // rejected with  a value.
+//         // it takes time to bring the post as it's on the server hence the promise might get rejected or resolved and with the data or value.
+//         //We are using setTimeout() an asynchronous action, to carry that delay procedure  and its delayed by the amount you want it to delay. 
+
+//         let error = false;
+
+
+//         if (!error) {
+
+//             setTimeout(() => {
+
+//                 let output = '';
+
+//                 posts.forEach((post) => {
+//                     output += `<li> ${post.name} -${post.comments} </li>`
+//                     document.body.innerHTML = output;
+//                 })
+
+//                 resolve('Displayed the posts');
+
+//             }, 2000)
+
+//         }
+
+//         else {
+//             reject('Result failed');
+//         }
+//     })
+// }
+
+
+// const data = bringPosts();
+// console.log(data)
+
+// bringPosts().then((data) => console.log(data)).catch((err) => console.log('An error occured', err))
+
+// alternate to write this without the tension of then and catch.
+
+
+// async function init() {
+//     let data = await bringPosts(); //await is used with promise and since bringPosts() returns promise and is asynchronous we use await
+//     console.log(data)
+// }
+
+// init();
