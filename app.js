@@ -323,3 +323,129 @@ const fakeRequestPromise = (url) => {
 // }
 
 // init();
+
+
+
+// Reference for working with call stack.
+
+// async function delay() {
+
+//      setTimeout(function () { console.log("Hello") }, 1000);
+//      setTimeout(function () { console.log("Nope") }, 1000);
+
+// }
+
+// delay();
+
+// console.log("Hi")
+// console.log("Hi")
+// console.log("Hi")
+// console.log("Hi")
+// console.log("Hi")
+// console.log("Hi")
+// console.log("Hi")
+
+
+// function delayedColorChange(newColor, delay, callback) {
+
+//     setTimeout(() => {
+//         document.body.style.backgroundColor = newColor
+//         callback && callback();
+//     }, delay)
+
+// }
+
+// if one gets executed then only we move on to the other call concept.
+// but this is really redundant and we are soon entering into a problem of callback hell.
+
+// delayedColorChange('red', 1000, () => {
+//     delayedColorChange('orange', 1000, () => {
+//         delayedColorChange('green', 1000, () => {
+//             delayedColorChange('yellow', 1000, () => {
+//                 delayedColorChange('violet', 1000, () => {
+//                     delayedColorChange('lawngreen', 1000)
+//                 })
+//             })
+//         })
+//     });
+// });
+
+// assume functioning of a hypothetical server.
+// mimicking the server behaviour using setTimeout() function.
+
+function delayedColorChange(newColor, delay) {
+    return new Promise((resolve, reject) => { // we are returning a new Promise object each time using this syntax.
+        // now either resolve and reject are functions that gets executed within the Promise
+        setTimeout(() => {
+            document.body.style.backgroundColor = newColor;
+            resolve();
+        }, delay)
+
+    });
+
+}
+
+// here's the main difference in the code compared to above.
+// little syntax improvement compared to above.
+
+// delayedColorChange('red', 1000)
+//     .then(() => { // this callback function runs when the Promise is resolved that way we can chain on the subsequent calls to our needs in case the function doesn't fail.
+//         delayedColorChange('orange', 1000)
+//             .then(() => {
+//                 delayedColorChange('green', 1000)
+//                     .then(() => {
+//                         delayedColorChange('violet', 1000)
+//                     })
+//             })
+
+//     }).catch((err) => {
+//         console.log(err)
+//     })
+
+
+// a little more improvement than above that we would return the delayedColorChange
+
+
+// delayedColorChange('red', 1000)
+
+//     .then(() => delayedColorChange('violet', 1000))
+//     .then(() => delayedColorChange('orange', 1000))
+//     .then(() => delayedColorChange('lawngreen', 1000))
+//     .then(() => delayedColorChange('yellow', 1000))
+//     .catch(err => console.log(err))
+
+
+
+// async functions always returns a fulfilled promise. and if any value returned theat is meant to be the resolved value of the Promise. on which we can chain on .then() and .catch() methods. 
+
+// let user = delayedColorChange('red',1000); // this is a synchronous way of writing things
+
+// but what we are running are asynchronous code hence comes into play two keywords Async/await in Asynchronous JavaScript.
+
+// we use async functions which is away to tell JS that we're going to run async code and await keyword lets write the asynchronous code in a synchronous manner as it pauses further code execution and never lets the compiler go to the next line till it is finished.
+
+// await keyword also extracts the resolved or rejected value from the Promise, and can be further stored in a variable for further use.  
+
+// async/ await those are built over Promise and works well with asynchronous code or code which takes a bit of time, await can only be used within the async functions and with Promises, otherwise it reults in unexpected results.
+
+
+async function newColor() { // this gives us an implicit/ implicitly returns a Promise object and if we explicitly return some value then it is wrraped inside a Promise as it's value. 
+    await delayedColorChange('red', 1000)
+    await delayedColorChange('violet', 1000)
+    await delayedColorChange('orange', 1000)
+    await delayedColorChange('lawngreen', 1000)
+    await delayedColorChange('yellow', 1000)
+    await delayedColorChange('blue', 1000)
+    return "Doneee!!"
+}
+
+// newColor().then((data) => console.log(data));
+
+async function finalExecution() {
+
+    let data = await newColor(); // await extracts the value out of a resolved or a rejected promise. and it does'nt go to the next execution line till data has been extracted with the value and doesn't move on to the next line for execution.
+    console.log(data)
+}
+
+
+finalExecution(); // we execute the function here.
