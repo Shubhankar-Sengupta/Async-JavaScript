@@ -151,34 +151,85 @@ const fakeRequestPromise = (url) => {
 
 
 
-fakeRequestPromise('services.com/api/page1')
+// fakeRequestPromise('services.com/api/page1')
 
-    .then((resolve) => {
+//     .then((resolve) => {
 
-        console.log('It worked!!')
+//         console.log('It worked!!')
 
-        console.log(resolve)
+//         console.log(resolve)
 
-        return fakeRequestPromise('services.com/api/page2') // this returns a new Promise object whose status might be pending, resolved or reject between an indefinite period of time.
+//         return fakeRequestPromise('services.com/api/page2') // this returns a new Promise object whose status might be pending, resolved or reject between an indefinite period of time.
+//     })
+
+//     .then((resolve) => { // we again use the then method over that returned promise object if in case it is resolved. 
+
+//         console.log('It worked!!')
+
+//         console.log(resolve)
+
+//         return fakeRequestPromise('services.com/api/page3')
+//     })
+
+
+//     .then((resolve) => { // we again use the then method over that returned promise object if in case it is resolved. 
+
+//         console.log('It worked!!')
+
+//         console.log(resolve)
+//     })
+
+//     .catch((reject) => {
+//         console.log('It Request failed', reject) // if in case anything goes wrong on any promise object and the promise is rejected then this catch method over that returned promise object runs.
+//     })
+
+
+
+
+//     const delayedColorChange = (color, delay) => {
+
+//         // the function being passed into the Promise constructor
+//         const  changeColourAfterDelay = (resolve, reject) => {
+//             setTimeout(() => {
+//               document.body.style.backgroundColor = color;
+//               resolve();
+//             }, delay);
+//           }
+
+
+//         return new Promise(changeColourAfterDelay);
+//       };
+
+
+// delayedColorChange('red', 1000).then(() => delayedColorChange('orange', 1000))
+
+let bgChange = (color, delay) => {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            document.body.style.backgroundColor = color;
+            resolve(color);
+        }, delay);
+    });
+};
+
+bgChange("black", 1000)
+    .then(color => {
+        console.log(color)
+        return bgChange("blue", 1000)
+    })
+    .then(color => {
+        console.log(color)
+        return bgChange("yellow", 1000);
+    })
+    .then(color => {
+        console.log(color)
+        return bgChange("red", 1000)
+    })
+    .then(color => {
+        console.log(color)
+        return bgChange("violet", 1000)
     })
 
-    .then((resolve) => { // we again use the then method over that returned promise object if in case it is resolved. 
-
-        console.log('It worked!!')
-
-        console.log(resolve)
-
-        return fakeRequestPromise('services.com/api/page3')
-    })
-
-
-    .then((resolve) => { // we again use the then method over that returned promise object if in case it is resolved. 
-
-        console.log('It worked!!')
-
-        console.log(resolve)
-    })
-
-    .catch((reject) => {
-        console.log('It Request failed', reject) // if in case anything goes wrong on any promise object and the promise is rejected then this catch method over that returned promise object runs.
+    .then(color => {
+        console.log(color)
     })
